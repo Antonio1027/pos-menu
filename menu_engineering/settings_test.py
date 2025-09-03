@@ -55,9 +55,9 @@ ROOT_URLCONF = 'menu_engineering.urls'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'as251292',
+        'NAME': 'test_db',
+        'USER': 'test_user',
+        'PASSWORD': 'test_password',
         'HOST': 'localhost',
         'PORT': '5432',
     }
