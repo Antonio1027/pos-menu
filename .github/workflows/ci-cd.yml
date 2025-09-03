@@ -1,0 +1,53 @@
+name: Django CI/CD
+
+on: workflow_call
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_pass
+        ports: ['5432:5432']
+
+    env:
+      DJANGO_SETTINGS_MODULE: menu_engineering.settings_test
+      DATABASE_NAME: test_db
+      DATABASE_USER: test_user
+      DATABASE_PASSWORD: test_pass
+      DATABASE_HOST: localhost
+      DATABASE_PORT: 5432
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run migrations
+      run: python manage.py migrate
+
+    - name: Run tests
+      run: python manage.py test
+
+  deploy-dev:
+    uses: ./.github/workflows/development.yml
+    needs: [test]
+  deploy-test:
+    uses: ./.github/workflows/testing.yml
+    needs: [test]
+  deploy-prod:
+    uses: ./.github/workflows/production.yml
+    needs: [test]
