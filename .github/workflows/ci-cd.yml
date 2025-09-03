@@ -43,11 +43,14 @@ jobs:
       run: python manage.py test
 
   deploy-dev:
+    if: github.ref == 'refs/heads/development'
     uses: ./.github/workflows/development.yml
     needs: [test]
   deploy-test:
+    if: github.ref == 'refs/heads/testing'
     uses: ./.github/workflows/testing.yml
     needs: [test]
   deploy-prod:
+    if: github.ref == 'refs/heads/master'
     uses: ./.github/workflows/production.yml
     needs: [test]
