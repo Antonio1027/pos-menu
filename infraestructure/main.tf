@@ -1,8 +1,8 @@
 data "aws_security_group" "existing_sg" {
   name        = "django-app-security-group"
   filter {
-    name   = "security-group-name"
-    values = ["django-app-security-group"]
+    name   = "vpc-id"
+    values = [aws_security_group.django_sg.vpc_id]
   }
 }
 
