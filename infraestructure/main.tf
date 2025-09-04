@@ -17,7 +17,7 @@ resource "aws_security_group" "django_sg" {
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_http" {
-  security_group_id = locals.target_sg_id
+  vpc_security_group_ids = [locals.target_sg_id]
   from_port         = 0
   to_port           = 0
   ip_protocol       = "-1"
@@ -25,7 +25,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_http" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ipv4" {
-  security_group_id = locals.target_sg_id
+  vpc_security_group_ids = [locals.target_sg_id]
   from_port         = 22
   to_port           = 22
   ip_protocol       = "tcp"
@@ -34,7 +34,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ipv4" {
 
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http" {
-  security_group_id = locals.target_sg_id
+  vpc_security_group_ids = [locals.target_sg_id]
   from_port         = 8000
   to_port           = 8000
   ip_protocol       = "tcp"
