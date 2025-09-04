@@ -8,7 +8,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_http" {
   from_port         = 0
   to_port           = 0
   ip_protocol       = "-1"
-  cidr_ipv4   = "10.0.0.0/8"
+  cidr_ipv4   = "0.0.0.0/8"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ipv4" {
@@ -16,7 +16,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ipv4" {
   from_port         = 22
   to_port           = 22
   ip_protocol       = "tcp"
-  cidr_ipv4   = "10.0.0.0/8"
+  cidr_ipv4   = "0.0.0.0/8"
 }
 
 
@@ -25,7 +25,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http" {
   from_port         = 8000
   to_port           = 8000
   ip_protocol       = "tcp"
-  cidr_ipv4   = "10.0.0.0/8"
+  cidr_ipv4   = "0.0.0.0/8"
   
 }
 
@@ -36,25 +36,48 @@ resource "aws_instance" "django_app_instance" {
     key_name      = "pos-menu" # Uncomment and replace with your key pair name
 
     user_data = <<-EOF
-    #!/bin/bash
-    sudo apt update
-    sudo apt install -y python3-pip python3-venv git
-    # Install Docker if needed for containerized deployment
-    # sudo apt install -y docker.io
-    # sudo systemctl start docker
-    # sudo systemctl enable docker
+      #!/bin/bash
+      sudo apt update
+      sudo apt install -y python3-pip python3-venv git nginx
 
-    # Clone your Django project
-    git clone https://github.com/Antonio1027/pos-menu.git /home/ubuntu/your-django-app
-    cd /home/ubuntu/your-django-app
+      # Clone your Django project
+      git clone --branch ${vars.CODE_BRANCH} https://github.com/Antonio1027/pos-menu.git /home/ubuntu/your-django-app
+      cd /home/ubuntu/your-django-app
 
-    # Setup virtual environment and install dependencies
-    python3 -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
+      # Setup virtual environment and install dependencies
+      python3 -m venv venv
+      source venv/bin/activate
+      pip install -r requirements.txt
+      pip install gunicorn
 
-    # Run Django (consider Gunicorn/Nginx for production)
-    # python3 manage.py runserver 0.0.0.0:8000
+      # Collect static files (if needed)
+      python manage.py collectstatic --noinput
+
+      # Start Gunicorn
+      nohup gunicorn menu_engineering.wsgi:application --bind 0.0.0.0:8000 &
+
+      # Configure Nginx
+      sudo tee /etc/nginx/sites-available/django_app <<EOL
+      server {
+          listen 80;
+          server_name _;
+          location = /favicon.ico { access_log off; log_not_found off; }
+          location /static/ {
+              alias /home/ubuntu/your-django-app/static/;
+          }
+          location / {
+              proxy_pass http://127.0.0.1:8000;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+          }
+      }
+      EOL
+
+      sudo ln -sf /etc/nginx/sites-available/django_app /etc/nginx/sites-enabled
+      sudo nginx -t
+      sudo systemctl restart nginx
     EOF
 
     tags = {
