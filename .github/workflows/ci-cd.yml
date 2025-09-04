@@ -15,11 +15,11 @@ jobs:
         image: postgres:13
         env:
           POSTGRES_DB: pos-menu
-          POSTGRES_USER: pos
-          POSTGRES_PASSWORD: as251292
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 
         ports: ['5432:5432']
         options: >-
-          --health-cmd="pg_isready -U pos -d pos-menu"
+          --health-cmd="pg_isready -U postgres -d pos-menu"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -27,8 +27,8 @@ jobs:
     env:
       DJANGO_SETTINGS_MODULE: menu_engineering.settings_test
       DATABASE_NAME: pos-menu
-      DATABASE_USER: pos
-      DATABASE_PASSWORD: as251292
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: 
       DATABASE_HOST: localhost
       DATABASE_PORT: 5432
 
@@ -46,7 +46,6 @@ jobs:
 
     - name: Connect to PostgreSQL and run commands
       run: |
-        psql -h localhost -p 5432 -U postgres -c "CREATE ROLE pos WITH LOGIN PASSWORD 'as251292';"
         psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE pos-menu"
 
     - uses: actions/checkout@v3
