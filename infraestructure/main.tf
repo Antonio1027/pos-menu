@@ -1,16 +1,23 @@
 data "aws_security_group" "existing_sg" {
-  count = !var.create_security_group ? 1 : 0
-  name = "django-app-security-group"
+  name        = "django-app-security-group"
+  filter {
+    name   = "security-group-name"
+    values = ["django-app-security-group"]
+  }
+}
+
+locals {
+  target_sg_id = can(data.aws_security_group.existing_sg.id) ? data.aws_security_group.existing_sg.id : aws_security_group.django_sg[0].id
 }
 
 resource "aws_security_group" "django_sg" {
-    name        = "django-app-security-group"
-    description = "Security group for Django application"
-    count       = var.create_security_group ? 1 : 0
+  count       = can(data.aws_security_group.existing_sg.id) ? 0 : 1
+  name        = "django-app-security-group"
+  description = "Security group for Django application"
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_http" {
-  security_group_id = aws_security_group.django_sg[0].id
+  security_group_id = locals.target_sg_id
   from_port         = 0
   to_port           = 0
   ip_protocol       = "-1"
@@ -18,7 +25,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_http" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ipv4" {
-  security_group_id = aws_security_group.django_sg[0].id
+  security_group_id = locals.target_sg_id
   from_port         = 22
   to_port           = 22
   ip_protocol       = "tcp"
@@ -27,7 +34,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ipv4" {
 
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http" {
-  security_group_id = aws_security_group.django_sg[0].id
+  security_group_id = locals.target_sg_id
   from_port         = 8000
   to_port           = 8000
   ip_protocol       = "tcp"
