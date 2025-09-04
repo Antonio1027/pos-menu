@@ -46,7 +46,8 @@ jobs:
 
     - name: Connect to PostgreSQL and run commands
       run: |
-        psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE pos-menu" --no-password
+        psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE pos-menu"
+        sh -c 'as251292'
 
     - uses: actions/checkout@v3
 
