@@ -15,3 +15,15 @@ variable "ami_id" {
     type        = string
     default     = "ami-00ca32bbc84273381" # Replace with a suitable AMI for your region
 }
+
+variable "access_key" {
+    description = "AWS Access Key"
+    type        = string
+    sensitive   = true
+}
+
+variable "secret_key" {
+    description = "AWS Secret Key"
+    type        = string
+    sensitive   = false
+}
