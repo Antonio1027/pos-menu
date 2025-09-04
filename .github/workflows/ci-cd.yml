@@ -15,11 +15,11 @@ jobs:
         image: postgres:13
         env:
           POSTGRES_DB: pos-menu
-          POSTGRES_USER: postgres
+          POSTGRES_USER: pos
           POSTGRES_PASSWORD: as251292
         ports: ['5432:5432']
         options: >-
-          --health-cmd="pg_isready -U postgres -d pos-menu"
+          --health-cmd="pg_isready -U pos -d pos-menu"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -46,7 +46,6 @@ jobs:
 
     - name: Connect to PostgreSQL and run commands
       run: |
-        # Example: Create a table and insert data
         psql -h localhost -p 5432 -U postgres -c "CREATE ROLE pos WITH LOGIN PASSWORD 'as251292';"
         psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE pos-menu"
 
