@@ -41,7 +41,7 @@ resource "aws_instance" "django_app_instance" {
       sudo apt install -y python3-pip python3-venv git nginx
 
       # Clone your Django project
-      git clone --branch ${vars.CODE_BRANCH} https://github.com/Antonio1027/pos-menu.git /home/ubuntu/your-django-app
+      git clone --branch ${var.CODE_BRANCH} https://github.com/Antonio1027/pos-menu.git /home/ubuntu/your-django-app
       cd /home/ubuntu/your-django-app
 
       # Setup virtual environment and install dependencies
