@@ -28,7 +28,7 @@
       ami           = var.ami_id
       instance_type = var.instance_type
       security_groups = [aws_security_group.django_sg.name]
-      #key_name      = "your-ssh-key" # Uncomment and replace with your key pair name
+      key_name      = "pos-menu" # Uncomment and replace with your key pair name
 
       user_data = <<-EOF
         #!/bin/bash
