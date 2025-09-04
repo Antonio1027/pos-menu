@@ -47,6 +47,7 @@ jobs:
     - name: Connect to PostgreSQL and run commands
       run: |
         # Example: Create a table and insert data
+        psql -h localhost -p 5432 -U postgres -c "CREATE user postgres WITH PASSWORD 'as251292';"
         psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE pos-menu"
 
     - uses: actions/checkout@v3
