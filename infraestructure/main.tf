@@ -1,5 +1,5 @@
 resource "aws_security_group" "django_sg" {
-    name        = aws_security_group.django_app_sg.name
+    name        = "django-app-security-group"
     description = "Security group for Django application"
     count       = var.create_security_group ? 1 : 0
 }
