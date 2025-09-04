@@ -16,7 +16,7 @@ jobs:
         env:
           POSTGRES_DB: pos-menu
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 
+          POSTGRES_PASSWORD: as251292
         ports: ['5432:5432']
         options: >-
           --health-cmd="pg_isready -U postgres -d pos-menu"
@@ -28,7 +28,7 @@ jobs:
       DJANGO_SETTINGS_MODULE: menu_engineering.settings_test
       DATABASE_NAME: pos-menu
       DATABASE_USER: postgres
-      DATABASE_PASSWORD: 
+      DATABASE_PASSWORD: as251292
       DATABASE_HOST: localhost
       DATABASE_PORT: 5432
 
