@@ -86,7 +86,7 @@ jobs:
         cd infraestructure
         terraform init
         terraform plan
-        terraform apply debug
+        terraform apply -auto-approve
 
   deploy-test:
     if: github.ref == 'refs/heads/test'
