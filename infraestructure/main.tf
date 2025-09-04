@@ -8,6 +8,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_http" {
   from_port         = 0
   to_port           = 0
   ip_protocol       = "-1"
+  cidr_ipv4   = "10.0.0.0/8"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ipv4" {
