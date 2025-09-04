@@ -1,5 +1,3 @@
-variable "aws_default_region" {}
-
 variable "instance_type" {
     description = "EC2 instance type"
     type        = string
@@ -12,5 +10,6 @@ variable "ami_id" {
     default     = "ami-00ca32bbc84273381" # Replace with a suitable AMI for your region
 }
 
-variable "aws_access_key_id" {}
-variable "aws_secret_access_key" {}
+variable "AWS_DEFAULT_REGION" {}
+variable "AWS_ACCESS_KEY_ID" {}
+variable "AWS_SECRET_ACCESS_KEY" {}
