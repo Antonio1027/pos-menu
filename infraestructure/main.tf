@@ -15,7 +15,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ipv4" {
   from_port         = 22
   to_port           = 22
   ip_protocol       = "tcp"
-  cidr_ipv4         = data.aws_vpc.main.cidr_block
+  cidr_ipv4   = "10.0.0.0/8"
 }
 
 
@@ -24,7 +24,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http" {
   from_port         = 8000
   to_port           = 8000
   ip_protocol       = "tcp"
-  cidr_ipv4         = data.aws_vpc.main.cidr_block
+  cidr_ipv4   = "10.0.0.0/8"
   
 }
 
