@@ -82,7 +82,7 @@ jobs:
         export TF_VAR_AWS_ACCESS_KEY_ID=${{ env.ACCESS_KEY_ID }}
         export TF_VAR_AWS_SECRET_ACCESS_KEY=${{ env.SECRET_ACCESS_KEY }}
         export TF_VAR_AWS_DEFAULT_REGION=${{ env.AWS_DEFAULT_REGION }}
-        export TF_VAR_CODE_BRANCH=${{ env.AWS_DEFAULT_REGION }}
+        export TF_VAR_CODE_BRANCH='development'
         cd infraestructure
         terraform init
         terraform plan
