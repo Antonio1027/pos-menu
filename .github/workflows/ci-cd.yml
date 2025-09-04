@@ -78,11 +78,12 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: 'us-east-1'
+        TF_LOG: 'TRACE'
       run: |
         cd infraestructure
         terraform init
         terraform plan
-        terraform apply -var="access_key=${{ env.AWS_ACCESS_KEY_ID }}" -var="secret_key=${{ env.AWS_SECRET_ACCESS_KEY }}" -auto-approve
+        terraform apply -var="secret_key=${{ env.AWS_SECRET_ACCESS_KEY }}" -var="access_key=${{ env.AWS_ACCESS_KEY_ID }}" -auto- debug
 
   deploy-test:
     if: github.ref == 'refs/heads/test'
