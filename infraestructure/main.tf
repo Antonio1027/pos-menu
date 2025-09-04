@@ -45,7 +45,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http" {
 resource "aws_instance" "django_app_instance" {
     ami           = var.ami_id
     instance_type = var.instance_type
-    security_groups = [aws_security_group.django_sg.name]
+    vpc_security_group_ids = [locals.target_sg_id]
     key_name      = "pos-menu" # Uncomment and replace with your key pair name
 
     lifecycle {
