@@ -2,7 +2,7 @@ data "aws_security_group" "existing_sg" {
   name        = "django-app-security-group"
   filter {
     name   = "vpc-id"
-    values = [aws_security_group.default.vpc_id]
+    values = ["vpc-0198d8e76a4834fb5"]
   }
 }
 
