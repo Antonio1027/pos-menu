@@ -27,7 +27,7 @@ jobs:
     env:
       DJANGO_SETTINGS_MODULE: menu_engineering.settings_test
       DATABASE_NAME: pos-menu
-      DATABASE_USER: postgres
+      DATABASE_USER: pos
       DATABASE_PASSWORD: as251292
       DATABASE_HOST: localhost
       DATABASE_PORT: 5432
@@ -47,7 +47,7 @@ jobs:
     - name: Connect to PostgreSQL and run commands
       run: |
         # Example: Create a table and insert data
-        psql -h localhost -p 5432 -U postgres -c "CREATE user postgres WITH PASSWORD 'as251292';"
+        psql -h localhost -p 5432 -U postgres -c "CREATE ROLE pos WITH LOGIN PASSWORD 'as251292';"
         psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE pos-menu"
 
     - uses: actions/checkout@v3
