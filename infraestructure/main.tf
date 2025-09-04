@@ -1,6 +1,7 @@
 resource "aws_security_group" "django_sg" {
-    name        = "django-app-security-group"
+    name        = aws_security_group.django_app_sg.name
     description = "Security group for Django application"
+    count       = var.create_security_group ? 1 : 0
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_http" {
